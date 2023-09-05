@@ -137,7 +137,7 @@ PHI = 1.7e-5
 PHI2 = 0
 ema = 91
 
-strat(btc_data, PHI, PHI2, ema, frais)
+#strat(btc_data, PHI, PHI2, ema, frais)
 max = 0
 '''
 for phi in range(0, 10000):
@@ -230,7 +230,7 @@ def stratsansgraph(data, PHI, PHI2, ema_window, frais):
     
     return result
 
-print(np.diff(btc_data))
+
 
 def scoring(li):
     differences = np.diff(li)
@@ -248,9 +248,11 @@ def scoring(li):
     return resultat
 
 
+
+
 def pas(li):
-     liste_filtree = np.diff(li)
-     liste_filtree = [x for x in liste_filtree if x is not np.isnan(x)]
+     liste_filtree = [x for x in li if x is not None]
+     liste_filtree = np.diff(liste_filtree)
     
     # Vérifier si la liste filtrée est vide
      if len(liste_filtree) == 0:
@@ -258,6 +260,7 @@ def pas(li):
     
     # Calculer le carré de chaque élément de la liste filtrée
      carres = [x ** 2 for x in liste_filtree]
+     
     
     # Calculer la moyenne des carrés
      moyenne_carres = np.mean(carres)
@@ -268,25 +271,32 @@ def pas(li):
      return racine_carrée_moyenne
 
 
-print(pas(btc_data))
 
-def Optimized(data, frais, PHILimit, emaLimit):
+def Optimized(data, frais, PHILimit, emaStart, emaLimit):
      MaxScore=0
      result=[[0,0,1,0]]
-     step=pas(data)*(10**-3)
+     step=pas(data['Close'])*(10**-9)
      print(step)
-     for ema_window in range(1,emaLimit):
-         print(ema_window/emaLimit)
+     for ema_window in range(emaStart,emaLimit):
+         print((ema_window - emaStart)/(emaLimit-emaStart))
          for i in range(0,PHILimit):
-             for j in range(0,i):
+             for j in range(0,i+1):
                  PHI=i*step
-                 print(i)
                  PHI2=j*step
                  Score=scoring(stratsansgraph(data, PHI, PHI2, ema_window, frais))
                  if Score>MaxScore:
                      MaxScore=Score
                      result.append([PHI,PHI2,ema_window,MaxScore])
+                     '''print(strat(data, PHI, PHI2, ema_window, frais))'''
     
-     return(result)
+     return(result[-1])
 
-print(Optimized(btc_data, frais, 5, 5))
+#print(Optimized(btc_data, frais, 100, 80, 120))
+
+'''pour l'étendue max du bitcoin 0,0,90'''
+''' pour 3 ans 0,0,98'''
+'''pour 1 an 0,0,117'''
+
+#print(scoring(stratsansgraph(btc_data, 0, 0, 90, frais)))
+#print(scoring(stratsansgraph(btc_data, 0, 0, 92, frais)))
+print(strat(btc_data, 0, 0, 90, frais))
