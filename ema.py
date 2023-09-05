@@ -13,8 +13,8 @@ PHI = 0
 ema_window = 1'''
 
 stock = "BTC-USD"
-start_date = "2010-01-01"
-end_date = "2023-04-01"
+start_date = "2017-01-01"
+end_date = "2023-09-04"
 frais = 99.5/100
 
 btc_data = yf.download(stock, start=start_date, end=end_date, interval="1d")
@@ -169,22 +169,24 @@ def strat(stock, start_date, end_date, PHI, PHI2, ema_window, frais):
 
 
 
-PHI = 1.7e-5
+PHI = 0.00018
 PHI2 = 0
-ema = 91
+ema = 4
 
 strat(stock, start_date, end_date, PHI, PHI2, ema, frais)
 max = 0
 '''
-for phi in range(0, 10000):
-    for emaw in range(89, 94):
+for phi in range(0, 100):
+    for emaw in range(1, 100):
         
-        phii = phi/100000000
+        phii = phi/100000
         k = strat(stock, start_date, end_date, phii, PHI2, emaw, frais)
         if k > max:
             max = k
-            
             print(max, phii, emaw)
 '''
+
+
+
 
 
