@@ -275,7 +275,7 @@ def pas(li):
 def Optimized(data, frais, PHILimit, emaStart, emaLimit):
      MaxScore=0
      result=[[0,0,1,0]]
-     step=pas(data['Close'])*(10**-9)
+     step=10**(-6)
      print(step)
      for ema_window in range(emaStart,emaLimit):
          print((ema_window - emaStart)/(emaLimit-emaStart))
@@ -291,7 +291,7 @@ def Optimized(data, frais, PHILimit, emaStart, emaLimit):
     
      return(result[-1])
 
-#print(Optimized(btc_data, frais, 100, 80, 120))
+#print(Optimized(btc_data, frais, 30, 80, 120))
 
 '''pour l'étendue max du bitcoin 0,0,90'''
 ''' pour 3 ans 0,0,98'''
@@ -299,4 +299,5 @@ def Optimized(data, frais, PHILimit, emaStart, emaLimit):
 
 #print(scoring(stratsansgraph(btc_data, 0, 0, 90, frais)))
 #print(scoring(stratsansgraph(btc_data, 0, 0, 92, frais)))
-print(strat(btc_data, 0, 0, 90, frais))
+#print(scoring(stratsansgraph(btc_data, 0, 0, 90, frais)))
+print(strat(btc_data, 1.8*10**-5, 1.8*10**-5, 90, frais))
